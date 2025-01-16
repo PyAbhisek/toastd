@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { LikeButton } from "./buttons";
 import VideoControls from './videoControls';
-import { Play, Pause,Volume2 ,VolumeOff  } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeOff } from 'lucide-react';
 const Feed = () => {
     const [posts, setPosts] = useState(
         [
@@ -114,8 +114,10 @@ const Feed = () => {
 
     const [videoStates, setVideoStates] = useState({});
     const [showPlayButton, setShowPlayButton] = useState({});
+    const [followStates, setFollowStates] = useState({});
     const videoRefs = useRef({});
     const buttonTimeouts = useRef({});
+
 
     useEffect(() => {
         // Initialize video states for each post
@@ -127,6 +129,11 @@ const Feed = () => {
             return acc;
         }, {});
         setVideoStates(initialStates);
+        const initialFollowStates = posts.reduce((acc, post) => {
+            acc[post.id] = false;
+            return acc;
+        }, {});
+        setFollowStates(initialFollowStates);
 
         // Set up Intersection Observer
         const observer = new IntersectionObserver(
@@ -191,12 +198,12 @@ const Feed = () => {
         }
         setShowPlayButton(prev => ({ ...prev, [postId]: true }));
 
-        
+
         if (buttonTimeouts.current[postId]) {
             clearTimeout(buttonTimeouts.current[postId]);
         }
 
-       
+
         buttonTimeouts.current[postId] = setTimeout(() => {
             setShowPlayButton(prev => ({ ...prev, [postId]: false }));
         }, 300);
@@ -213,14 +220,33 @@ const Feed = () => {
             }));
         }
     };
+    const toggleFollow = (postId) => {
+        setFollowStates(prev => ({
+            ...prev,
+            [postId]: !prev[postId]
+        }));
+    };
     return (
         <div className="w-full flex justify-center">
             <div className="w-full sm:max-w-[45%] md:max-w-[45%]">
                 <div className="w-full">
                     {posts.map((post) => (
-                    
-                        <div key={post.id} className="relative h-[90vh] bg-black mt-3">
-                       
+
+                        <div key={post.id} className="relative h-[90vh] bg-[black] mt-3">
+
+                            <div className='absolute bottom-10 left-2 '>
+                                <div className='flex justify-start items-center gap-3 ml-[.3rem]'>
+                                    <img src={post?.thumbnailUrl} alt={post.id} className='h-[40px] w-[40px] object-cover rounded-full' />
+                                    <p className='text-white max-w-[5rem] truncate text-[1rem]'>{post?.title}</p>
+                                    <button className='text-white bg-gray-800/50 border border-white px-[1rem] rounded-[5px] z-10' onClick={() => toggleFollow(post.id)}>{followStates[post.id] ? "Following" : "Follow"}</button>
+                                </div>
+
+                                <div>
+                                    <p className='text-white max-w-[15rem] truncate text-[0.8rem] ml-[.3rem] mt-[0.3rem]'>  {post?.description}</p>
+                                </div>
+
+                            </div>
+
                             <video
                                 ref={el => videoRefs.current[post.id] = el}
                                 src={post.videoUrl}
@@ -231,7 +257,7 @@ const Feed = () => {
                                 loop
                                 onClick={() => handleVideoClick(post.id)}
                             />
-                             {showPlayButton[post.id] && (
+                            {showPlayButton[post.id] && (
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4 animate-fade">
                                     {videoStates[post.id]?.isPlaying ? (
                                         <Pause className="w-12 h-12 text-white" />
@@ -240,16 +266,17 @@ const Feed = () => {
                                     )}
                                 </div>
                             )}
-                            <div className="absolute top-0 right-4 flex flex-col gap-4">
+                            <div className="absolute top-2 right-2">
                                 <VideoControls
                                     postId={post.id}
                                     videoState={videoStates[post.id]}
                                     onMuteToggle={toggleMute}
                                 />
-                                 <div className=" p-2">
-                                    <LikeButton />
-                                </div>
 
+
+                            </div>
+                            <div className=" absolute flex items-center justify-center bg-gray-800/50 hover:bg-gray-800/75 bottom-[10rem] right-2 rounded-full  h-[2.5rem] w-[2.5rem]  p-2">
+                                <LikeButton />
                             </div>
 
 
