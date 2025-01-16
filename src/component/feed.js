@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { LikeButton } from "./buttons";
 import VideoControls from './videoControls';
-import { Play, Pause, Volume2, VolumeOff } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
+import testVideo from "../component/Assets/testvideo.mp4"
 const Feed = () => {
     const [posts, setPosts] = useState(
         [
             {
                 "id": "1",
                 "title": "Big Buck Bunny",
-                "thumbnailUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Big_Buck_Bunny_thumbnail_vlc.png/1200px-Big_Buck_Bunny_thumbnail_vlc.png",
+                "thumbnailUrl": `https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Big_Buck_Bunny_thumbnail_vlc.png/1200px-Big_Buck_Bunny_thumbnail_vlc.png`,
                 "duration": "8:18",
                 "uploadTime": "May 9, 2011",
                 "views": "24,969,123",
                 "author": "Vlc Media Player",
-                "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                "videoUrl": `${testVideo}`,
                 "description": "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
                 "subscriber": "25254545 Subscribers",
                 "isLive": true
@@ -211,7 +212,6 @@ const Feed = () => {
 
     const toggleMute = (postId) => {
         const video = videoRefs.current[postId];
-        console.log(`toggleMute`)
         if (video) {
             video.muted = !video.muted;
             setVideoStates(prev => ({
@@ -228,7 +228,7 @@ const Feed = () => {
     };
     return (
         <div className="w-full flex justify-center">
-            <div className="w-full sm:max-w-[45%] md:max-w-[45%]">
+            <div className="w-full sm:max-w-[55%] lg:max-w-[45%] xl:max-w-[23%]">
                 <div className="w-full">
                     {posts.map((post) => (
 
@@ -275,7 +275,7 @@ const Feed = () => {
 
 
                             </div>
-                            <div className=" absolute flex items-center justify-center bg-gray-800/50 hover:bg-gray-800/75 bottom-[10rem] right-2 rounded-full  h-[2.5rem] w-[2.5rem]  p-2">
+                            <div className=" absolute flex items-center justify-center bg-gray-800/50 hover:bg-gray-800/75 bottom-[4rem] right-2 rounded-full  h-[2.5rem] w-[2.5rem]  p-2">
                                 <LikeButton />
                             </div>
 
