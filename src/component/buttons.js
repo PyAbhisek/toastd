@@ -8,10 +8,9 @@ export const LikeButton = () => {
 
     return (
         <>
-            <div className="cursor-pointer  ">
-                <div className="flex flex-col items-center" onClick={handleLike}>
-                    {like === "Likes" ? <HeartOff className="w-7 h-7 text-white" /> : <Heart className="w-7 h-7 text-white" />}
-                    <p className="text-[white]">{like}</p>
+            <div className="cursor-pointer min-w-[30px]  ">
+                <div className="flex flex-col items-center " onClick={handleLike}>
+                    {like === "Likes" ? <HeartOff className="w-5 h-5 text-white" /> : <Heart className="w-5 h-5 text-white" />}
                 </div>
             </div>
         </>
