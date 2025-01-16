@@ -236,7 +236,7 @@ const Feed = () => {
 
                             <div className='absolute bottom-10 left-2 '>
                                 <div className='flex justify-start items-center gap-3 ml-[.3rem]'>
-                                    <img src={post?.thumbnailUrl} alt={post.id} className='h-[40px] w-[40px] object-cover rounded-full' />
+                                    <img  loading="lazy" src={post?.thumbnailUrl} alt={post.id} className='h-[40px] w-[40px] object-cover rounded-full' />
                                     <p className='text-white max-w-[5rem] truncate text-[1rem]'>{post?.title}</p>
                                     <button className='text-white bg-gray-800/50 border border-white px-[1rem] rounded-[5px] z-10' onClick={() => toggleFollow(post.id)}>{followStates[post.id] ? "Following" : "Follow"}</button>
                                 </div>
